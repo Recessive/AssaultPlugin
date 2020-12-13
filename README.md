@@ -1,4 +1,4 @@
-# Campaign plugin
+# Assault plugin
 
 Made by Recessive (me). I do not give anyone permission to use this without asking first.
 

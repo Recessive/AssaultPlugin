@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CampaignData {
+public class AssaultData {
 
     public static final Map<String, Float> itemValues;
     static {

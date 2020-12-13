@@ -2,7 +2,7 @@ package main;
 
 public class StringHandler {
     public static String determineRank(int xp){
-        switch(xp / 10000){
+        switch(xp / 5000){
             case 0: return "[accent]<[white]\uF8AE1[accent]>";
             case 1: return "[accent]<[white]\uF8AE2[accent]>";
             case 2: return "[accent]<[white]\uF8AE3[accent]>";

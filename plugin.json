@@ -1,7 +1,7 @@
 {
-  "name": "CampaingPlugin",
+  "name": "AssaultPlugin",
   "author": "Recessive",
-  "main": "main.CampaignPlugin",
-  "description": "Campaign Plugin.",
-  "version": 0.1
+  "main": "main.AssaultPlugin",
+  "description": "Assault Plugin.",
+  "version": 0.0
 }
