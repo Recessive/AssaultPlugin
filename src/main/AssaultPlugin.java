@@ -41,7 +41,7 @@ public class AssaultPlugin extends Plugin {
     private mindustry.maps.Map loadedMap;
     private String mapID;
 
-    private RTInterval buildScoreInterval = new RTInterval(1000);
+    private RTInterval buildScoreInterval = new RTInterval(10000);
 
     private HashMap<String, CustomPlayer> uuidMapping = new HashMap<>();
 
@@ -84,12 +84,15 @@ public class AssaultPlugin extends Plugin {
 
             if(event.tile.team() == Team.crux){
 
-                if(!(event.tile.block() instanceof CoreBlock) && buildScoreInterval.get(buildingScore)){
+
+                if(!(event.tile.block() instanceof CoreBlock)){
                     buildingScore += calcValue(Arrays.stream(event.tile.block().requirements).toArray());
-                    for(Player player : Groups.player){
-                        playerDB.safePut(player.uuid(), "xp", (int) playerDB.safeGet(player.uuid(), "xp") + 50*(player.donateLevel + 1));
-                        player.sendMessage("[accent]+[scarlet]" + 50*(player.donateLevel + 1) + "[accent] xp for " +
-                                "destroying [scarlet]1000[accent] points of building worth");
+                    if(buildScoreInterval.get(buildingScore)){
+                        for(Player player : Groups.player){
+                            playerDB.safePut(player.uuid(), "xp", (int) playerDB.safeGet(player.uuid(), "xp") + 50*(player.donateLevel + 1));
+                            player.sendMessage("[accent]+[scarlet]" + 50*(player.donateLevel + 1) + "[accent] xp for " +
+                                    "destroying [scarlet]10,000[accent] points of building worth");
+                        }
                     }
                 }
                 if(event.tile.block() instanceof CoreBlock){
@@ -212,6 +215,12 @@ public class AssaultPlugin extends Plugin {
             Log.info("Set uuid " + args[0] + " to have xp of " + args[1]);
 
         });
+
+        handler.register("manual_reset", "Perform a manual reset of monthly map stats and xp", args -> {
+            rankReset();
+            mapStatsReset();
+            Log.info("monthly map stats and xp have been reset");
+        });
     }
 
     public void registerClientCommands(CommandHandler handler) {
@@ -241,8 +250,7 @@ public class AssaultPlugin extends Plugin {
         });
 
         handler.<Player>register("stats", "Display the stats for this map", (args, player) -> {
-            player.sendMessage("[gold]All time record: [scarlet]" + mapDB.safeGet(mapID, "allRecord") +
-                    "\n[accent]Monthly record: [scarlet]" + mapDB.safeGet(mapID, "monthRecord"));
+            player.sendMessage(motd());
         });
 
         handler.<Player>register("time", "Display the current time", (args, player) -> {
@@ -335,6 +343,24 @@ public class AssaultPlugin extends Plugin {
             playerDB.saveRow(uuid);
         }
 
+    }
+
+    void mapStatsReset(){
+        // Reset monthly records
+        mapDB.setColumn("monthRecord", 0);
+
+        for(Object uuid: mapDB.entries.keySet().toArray()){
+            mapDB.safePut((String) uuid,"monthRecord", 0);
+        }
+    }
+
+    void rankReset(){
+        // Reset ranks
+        playerDB.setColumn("xp", 0);
+
+        for(Object uuid: playerDB.entries.keySet().toArray()){
+            playerDB.safePut((String) uuid,"xp", 0);
+        }
     }
 
     int calcValue(Object[] stacks){
