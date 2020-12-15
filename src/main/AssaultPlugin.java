@@ -267,6 +267,7 @@ public class AssaultPlugin extends Plugin {
         rules.buildSpeedMultiplier = 1.5f;
         rules.canGameOver = false;
         rules.buildSpeedMultiplier = 2;
+        rules.fire = false;
     }
 
 
@@ -373,7 +374,7 @@ public class AssaultPlugin extends Plugin {
     }
 
     String formatSeconds(int seconds){
-        return "[scarlet]" + (seconds / 60) + " [accent]minutes and [scarlet]" + (seconds - (seconds/60)) + "[accent] seconds";
+        return "[scarlet]" + (seconds / 60) + " [accent]minutes and [scarlet]" + (seconds - (seconds/60)*60) + "[accent] seconds";
     }
 
     String motd(){
