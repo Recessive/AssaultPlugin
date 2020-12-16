@@ -118,7 +118,7 @@ public class AssaultPlugin extends Plugin {
         });
 
         Events.on(EventType.TapEvent.class, event ->{
-            if(event.tile.block() == Blocks.vault && event.tile.team() != Team.purple){
+            if(event.tile.block() == Blocks.vault && event.tile.team() != Team.crux && event.tile.team() == event.player.team()){
                 if(event.tile.build.items.has(Items.thorium, 997)){
                     if(uuidMapping.get(event.player.uuid()).coresLeft < 1){
                         event.player.sendMessage("[accent]You can only place 1 core shard per game!");
@@ -244,8 +244,8 @@ public class AssaultPlugin extends Plugin {
             }
             s += "[accent] boost!\n";*/
 
-            String nextRank = StringHandler.determineRank(xp+5000);
-            player.sendMessage(s + "Reach [scarlet]" + (xp/5000+1)*5000 + "[accent] xp to reach " + nextRank + "[accent] rank.");
+            String nextRank = StringHandler.determineRank(xp+20000);
+            player.sendMessage(s + "Reach [scarlet]" + (xp/20000+1)*20000 + "[accent] xp to reach " + nextRank + "[accent] rank.");
 
         });
 
