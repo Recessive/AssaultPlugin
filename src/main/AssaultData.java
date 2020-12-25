@@ -1,5 +1,6 @@
 package main;
 
+import arc.math.Mathf;
 import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import mindustry.Vars;
@@ -130,6 +131,17 @@ public class AssaultData {
 
     static {
         tech3Banned = ObjectSet.with();
+    }
+
+    public static int getRandomWithExclusion(int start, int end, int... exclude) {
+        int random = start + Mathf.random(end - start - exclude.length);
+        for (int ex : exclude) {
+            if (random < ex) {
+                break;
+            }
+            random++;
+        }
+        return random;
     }
 
 

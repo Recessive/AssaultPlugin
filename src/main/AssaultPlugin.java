@@ -273,6 +273,7 @@ public class AssaultPlugin extends Plugin {
 
     void endgame(boolean win){
         Log.info("Ending the game...");
+        prefs.putInt("mapchoice", AssaultData.getRandomWithExclusion(0, maps.customMaps().size-1, currMap));
         if(win){
 
             for(Player player : Groups.player){
@@ -280,12 +281,6 @@ public class AssaultPlugin extends Plugin {
                 player.sendMessage("[accent]+[scarlet]" + 500*(player.donateLevel + 1) + "[accent] xp for destroying the crux");
             }
 
-            int nextMap = currMap;
-            while(nextMap == currMap) {
-                nextMap = rand.nextInt(maps.customMaps().size - 1);
-            }
-
-            prefs.putInt("mapchoice", nextMap);
             String s = "";
 
             if(seconds < (int) mapDB.safeGet(mapID, "allRecord") || (int) mapDB.safeGet(mapID, "allRecord") == 0){
@@ -312,12 +307,6 @@ public class AssaultPlugin extends Plugin {
 
             Call.infoMessage(s);
         }else{
-            int nextMap = currMap;
-            while(nextMap == currMap) {
-                nextMap = rand.nextInt(maps.customMaps().size - 1);
-            }
-
-            prefs.putInt("mapchoice", nextMap);
             Call.infoMessage("[scarlet]Bad luck! You died.");
         }
 
